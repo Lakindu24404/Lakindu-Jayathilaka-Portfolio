@@ -1,0 +1,27 @@
+.clip {
+  display: block;
+  overflow: clip;
+}
+
+.words {
+  display: block;
+}
+
+.word {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.text {
+  display: block;
+  transform-origin: left bottom;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word,
+  .text {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

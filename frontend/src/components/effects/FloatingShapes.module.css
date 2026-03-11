@@ -1,0 +1,69 @@
+.stage {
+  --shape-min: 120px;
+  --shape-cap: 999px;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: clip;
+  contain: paint;
+  perspective: 1200px;
+}
+
+.shape {
+  position: absolute;
+  left: var(--dx);
+  top: var(--dy);
+  width: clamp(
+    var(--shape-min),
+    var(--vw),
+    min(var(--shape-cap), var(--native))
+  );
+  transform: translate(-50%, -50%);
+}
+
+.shape img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* iPad / compact tablet: all six solids, inset so they frame the portrait
+   instead of colliding with it. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .stage {
+    --shape-min: 96px;
+    --shape-cap: 168px;
+  }
+
+  .shape {
+    left: var(--tx);
+    top: var(--ty);
+  }
+}
+
+/* Phones: all six solids, pulled in around the portrait. */
+@media (max-width: 767px) {
+  .stage {
+    --shape-min: 96px;
+    --shape-cap: 120px;
+  }
+
+  .shape {
+    left: var(--px);
+    top: var(--py);
+    width: clamp(96px, 26vw, 120px);
+  }
+}
+
+@media (max-height: 700px) and (max-width: 767px) {
+  .stage {
+    --shape-min: 88px;
+    --shape-cap: 108px;
+  }
+
+  .shape {
+    width: clamp(88px, 24vw, 108px);
+  }
+}

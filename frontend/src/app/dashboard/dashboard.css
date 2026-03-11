@@ -1,0 +1,1024 @@
+/*
+ * Dashboard surface.
+ *
+ * Same palette and typeface as the portfolio, at editing scale rather than
+ * poster scale: 15px body copy, 16-24px radii, hairline borders instead of
+ * shadows, and lavender-tinted panels borrowed from the public --color-surface.
+ * Nothing here leaks onto the public pages - every rule is under .dash.
+ */
+
+.dash {
+  --dash-ink: #000;
+  --dash-ink-soft: #2b2b2b;
+  --dash-muted: #5c5c5c;
+  --dash-faint: #8a8a8a;
+  --dash-line: #ededed;
+  --dash-line-strong: rgb(0 0 0 / 12%);
+  --dash-surface: rgb(102 112 255 / 5%);
+  --dash-surface-strong: rgb(102 112 255 / 10%);
+  --dash-accent: #f94706;
+  --dash-accent-soft: rgb(249 71 6 / 8%);
+  --dash-indigo: #6670ff;
+  --dash-indigo-soft: rgb(102 112 255 / 14%);
+  --dash-danger: #c2361b;
+  --dash-radius-sm: 12px;
+  --dash-radius: 16px;
+  --dash-radius-lg: 24px;
+
+  min-height: 100svh;
+  background: #fff;
+  color: var(--dash-muted);
+  font-size: 15px;
+  letter-spacing: var(--tracking-body);
+}
+
+.dash *,
+.dash *::before,
+.dash *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------- shell -- */
+
+.dashShell {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  align-items: start;
+  min-height: 100svh;
+}
+
+.dashSidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100svh;
+  flex-direction: column;
+  gap: 28px;
+  padding: 28px 20px;
+  border-right: 1px solid var(--dash-line);
+  background: #fff;
+}
+
+.dashBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-inline: 10px;
+}
+
+.dashBrandMark {
+  color: var(--dash-ink);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.dashBrandNote {
+  color: var(--dash-faint);
+  font-size: 12px;
+  letter-spacing: var(--tracking-body);
+  text-transform: uppercase;
+}
+
+.dashNav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dashNavGroup {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 20px;
+  border-top: 1px solid var(--dash-line);
+}
+
+.dashNavLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: var(--dash-radius-sm);
+  background: transparent;
+  color: var(--dash-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.dashNavLink:hover {
+  background: var(--dash-surface);
+  color: var(--dash-ink);
+}
+
+.dashNavLink[aria-current="page"] {
+  background: var(--dash-surface-strong);
+  color: var(--dash-ink);
+}
+
+.dashNavIcon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: currentColor;
+}
+
+.dashNavLink[aria-current="page"] .dashNavIcon {
+  color: var(--dash-indigo);
+}
+
+.dashMain {
+  min-width: 0;
+  padding: 32px clamp(20px, 3vw, 40px) 96px;
+}
+
+.dashTopbar {
+  display: none;
+}
+
+/* --------------------------------------------------------------- header -- */
+
+.dashHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.dashTitle {
+  margin: 0;
+  color: var(--dash-ink);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+}
+
+.dashSubtitle {
+  margin: 6px 0 0;
+  max-width: 62ch;
+  color: var(--dash-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dashHeaderActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* -------------------------------------------------------------- surface -- */
+
+.dashPanel {
+  padding: 20px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius-lg);
+  background: #fff;
+}
+
+.dashPanelTinted {
+  border-color: transparent;
+  background: var(--dash-surface);
+}
+
+.dashPanelTitle {
+  margin: 0 0 4px;
+  color: var(--dash-ink);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.dashPanelNote {
+  margin: 0 0 16px;
+  color: var(--dash-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.dashGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.dashStatGrid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.dashStat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  background: #fff;
+}
+
+.dashStatValue {
+  color: var(--dash-ink);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.dashStatLabel {
+  color: var(--dash-muted);
+  font-size: 13px;
+}
+
+/* -------------------------------------------------------------- buttons -- */
+
+.dashButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--dash-line-strong);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--dash-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, opacity 0.16s ease;
+}
+
+.dashButton:hover:not(:disabled) {
+  background: var(--dash-surface);
+}
+
+.dashButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dashButtonPrimary {
+  border-color: transparent;
+  background: var(--dash-accent);
+  color: #fff;
+}
+
+.dashButtonPrimary:hover:not(:disabled) {
+  background: #dd3f05;
+}
+
+.dashButtonGhost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--dash-muted);
+}
+
+.dashButtonGhost:hover:not(:disabled) {
+  background: var(--dash-surface);
+  color: var(--dash-ink);
+}
+
+.dashButtonDanger {
+  border-color: transparent;
+  background: transparent;
+  color: var(--dash-danger);
+}
+
+.dashButtonDanger:hover:not(:disabled) {
+  background: rgb(194 54 27 / 8%);
+}
+
+.dashButtonSmall {
+  min-height: 30px;
+  padding: 0 11px;
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------- fields -- */
+
+.dashField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dashLabel {
+  color: var(--dash-ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.dashHint {
+  color: var(--dash-faint);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.dashError {
+  color: var(--dash-danger);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.dashInput,
+.dashSelect,
+.dashTextarea {
+  width: 100%;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid var(--dash-line-strong);
+  border-radius: var(--dash-radius-sm);
+  background: #fff;
+  color: var(--dash-ink);
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: var(--tracking-body);
+  outline: none;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.dashTextarea {
+  min-height: 96px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.dashInput:focus-visible,
+.dashSelect:focus-visible,
+.dashTextarea:focus-visible {
+  border-color: var(--dash-indigo);
+  box-shadow: 0 0 0 3px var(--dash-indigo-soft);
+}
+
+.dashInput[aria-invalid="true"],
+.dashTextarea[aria-invalid="true"] {
+  border-color: var(--dash-danger);
+}
+
+.dashCheckbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius-sm);
+  cursor: pointer;
+}
+
+.dashCheckbox input {
+  margin-top: 2px;
+  accent-color: var(--dash-indigo);
+}
+
+.dashCheckboxText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dashCheckboxText strong {
+  color: var(--dash-ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dashFieldRow {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* ---------------------------------------------------------------- lists -- */
+
+.dashList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  background: #fff;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+
+.dashRow[data-dragging="true"] {
+  border-color: var(--dash-indigo);
+  background: var(--dash-surface);
+}
+
+.dashRow[data-drop-target="true"] {
+  border-color: var(--dash-indigo);
+}
+
+.dashRow[data-selected="true"] {
+  border-color: var(--dash-indigo);
+  background: var(--dash-surface);
+}
+
+.dashHandle {
+  display: grid;
+  width: 26px;
+  height: 30px;
+  flex: none;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--dash-faint);
+  cursor: grab;
+}
+
+.dashHandle:hover,
+.dashHandle:focus-visible {
+  background: var(--dash-surface-strong);
+  color: var(--dash-ink);
+}
+
+.dashHandle[data-grabbed="true"] {
+  background: var(--dash-indigo);
+  color: #fff;
+  cursor: grabbing;
+}
+
+.dashRowBody {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashRowText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dashRowTitle {
+  overflow: hidden;
+  color: var(--dash-ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashRowMeta {
+  color: var(--dash-faint);
+  font-size: 12px;
+}
+
+.dashRowActions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.dashThumb {
+  position: relative;
+  width: 56px;
+  height: 40px;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid var(--dash-line);
+  border-radius: 8px;
+  background: var(--dash-surface);
+}
+
+.dashThumb img {
+  object-fit: cover;
+}
+
+.dashLogoThumb {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--dash-line);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.dashLogoThumb img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+/* ---------------------------------------------------------------- chips -- */
+
+.dashChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--dash-surface-strong);
+  color: var(--dash-ink-soft);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dashChipLive {
+  background: rgb(0 204 153 / 14%);
+  color: #0a6a52;
+}
+
+.dashChipDraft {
+  background: var(--dash-accent-soft);
+  color: #a8360a;
+}
+
+.dashChipWarn {
+  background: var(--dash-accent-soft);
+  color: #a8360a;
+}
+
+/* ------------------------------------------------------------ workspace -- */
+
+.dashWorkspace {
+  display: grid;
+  align-items: start;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+}
+
+.dashPreview {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius-lg);
+  background: var(--dash-surface);
+}
+
+.dashPreviewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dashPreviewTitle {
+  margin: 0;
+  color: var(--dash-ink);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-body);
+}
+
+/* The orbit is a fixed 620px composition; scale it down rather than reflow it,
+   so the preview shows the real proportions. */
+.dashOrbitStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--dash-radius);
+  background: #fff;
+}
+
+.dashOrbitScale {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 620px;
+  height: 620px;
+  transform: translate(-50%, -50%) scale(var(--dash-orbit-scale, 0.58));
+  transform-origin: center;
+}
+
+/* ------------------------------------------------------------- logo fit -- */
+
+/* Framing controls for an uploaded logo, in the same language as the rest of
+   the form -- hairline border, tinted ground, 13px labels -- rather than the
+   dark chrome of a general-purpose image cropper. Flex wrap does the whole
+   responsive job: preview and controls sit side by side while there is room
+   for both, and stack the moment there is not. */
+.dashFit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 16px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  background: var(--dash-surface);
+}
+
+.dashFitStage {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  /* Absorbs the free space only once this item is alone on its line, so the
+     preview centres when the panel wraps and stays put when it does not. */
+  margin-inline: auto;
+}
+
+.dashFitControls {
+  display: flex;
+  flex: 1 1 240px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashFitRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dashFitRowHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dashFitValue {
+  color: var(--dash-ink);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* `accent-color` rather than a rebuilt track and thumb: the native control
+   already has the focus ring, the keyboard behaviour and the touch target,
+   and only its colour is off-brand. */
+.dashRange {
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--dash-indigo);
+  background: transparent;
+  cursor: pointer;
+}
+
+.dashRange:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ---------------------------------------------------------------- empty -- */
+
+.dashEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 32px 24px;
+  border: 1px dashed var(--dash-line-strong);
+  border-radius: var(--dash-radius-lg);
+  background: var(--dash-surface);
+}
+
+.dashEmpty h3 {
+  margin: 0;
+  color: var(--dash-ink);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.dashEmpty p {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.dashNotice {
+  padding: 14px 16px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  background: var(--dash-surface);
+  color: var(--dash-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.dashNoticeWarn {
+  border-color: rgb(249 71 6 / 25%);
+  background: var(--dash-accent-soft);
+  color: #8f2f08;
+}
+
+.dashNoticeError {
+  border-color: rgb(194 54 27 / 25%);
+  background: rgb(194 54 27 / 6%);
+  color: var(--dash-danger);
+}
+
+/* --------------------------------------------------------------- toasts -- */
+
+.dashToasts {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: flex;
+  width: min(340px, calc(100vw - 40px));
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashToast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--dash-line-strong);
+  border-radius: var(--dash-radius);
+  background: #fff;
+  color: var(--dash-ink);
+  font-size: 14px;
+  line-height: 1.45;
+  animation: dashToastIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dashToast[data-tone="success"] {
+  border-color: rgb(0 204 153 / 35%);
+}
+
+.dashToast[data-tone="error"] {
+  border-color: rgb(194 54 27 / 35%);
+  color: var(--dash-danger);
+}
+
+.dashToastClose {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--dash-faint);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@keyframes dashToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* --------------------------------------------------------------- dialog -- */
+
+.dashDialog::backdrop {
+  background: rgb(0 0 0 / 32%);
+}
+
+.dashDialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 22px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius-lg);
+  background: #fff;
+  color: var(--dash-muted);
+  font: inherit;
+  font-size: 14px;
+}
+
+.dashDialog h2 {
+  margin: 0 0 8px;
+  color: var(--dash-ink);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.dashDialog p {
+  margin: 0 0 18px;
+  line-height: 1.55;
+}
+
+.dashDialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* -------------------------------------------------------------- gallery -- */
+
+.dashGallery {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashGalleryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--dash-line);
+  border-radius: var(--dash-radius);
+  background: #fff;
+}
+
+.dashGalleryItem[data-dragging="true"] {
+  border-color: var(--dash-indigo);
+  background: var(--dash-surface);
+}
+
+.dashGalleryFrame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--dash-surface);
+}
+
+.dashGalleryFrame img {
+  object-fit: cover;
+}
+
+.dashGalleryActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.dashProgress {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--dash-surface-strong);
+}
+
+.dashProgressBar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--dash-indigo);
+  transition: width 0.2s ease;
+}
+
+/* The draft preview renders real public components inside the dashboard tree.
+   This puts the document's own inherited typography back, so what an editor
+   sees is what a visitor gets rather than the dashboard's editing scale. */
+.dashBleed {
+  color: var(--color-ink-muted);
+  font-size: 16px;
+  letter-spacing: var(--tracking-body);
+}
+
+.dashSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dash :focus-visible {
+  outline: 2px solid var(--dash-indigo);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------- responsive -- */
+
+@media (max-width: 1100px) {
+  .dashWorkspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashPreview {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .dashShell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashSidebar {
+    display: none;
+  }
+
+  .dashTopbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--dash-line);
+    background: rgb(255 255 255 / 92%);
+    backdrop-filter: blur(8px);
+    scrollbar-width: none;
+  }
+
+  .dashTopbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dashTopbar .dashNav,
+  .dashTopbar .dashNavGroup {
+    flex-direction: row;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .dashTopbar .dashNavLink {
+    flex: none;
+    padding: 7px 12px;
+    border: 1px solid var(--dash-line);
+    white-space: nowrap;
+  }
+
+  .dashMain {
+    padding: 20px 16px 80px;
+  }
+
+  .dashTitle {
+    font-size: 24px;
+  }
+
+  .dashToasts {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  /* A row's controls do not fit beside its label on a phone, so they drop to
+     their own line rather than being clipped. */
+  .dashRow {
+    flex-wrap: wrap;
+  }
+
+  .dashRowBody {
+    flex: 1 1 calc(100% - 38px);
+  }
+
+  .dashRowActions {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-left: 38px;
+  }
+
+  .dashRowActions .dashSelect {
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+
+  .dashHeader {
+    align-items: flex-start;
+  }
+
+  .dashHeaderActions {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashToast {
+    animation: none;
+  }
+}

@@ -1,0 +1,32 @@
+{
+  // The backend is plain Node ESM run through Node's own type stripping, so
+  // nothing is emitted — this exists so `npm run typecheck` still covers the
+  // seed script, the audit and the database suites the way the single
+  // top-level tsconfig used to before the frontend/backend split.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      // `frontend/src/content/portfolio-seed.ts` carries one type-only import
+      // written against the app's alias. Node strips it at runtime; this keeps
+      // `tsc` able to follow it.
+      "@/*": ["../frontend/src/*"]
+    }
+  },
+  "include": [
+    "scripts/**/*.mts",
+    "tests/**/*.mts",
+    "tests/**/*.mjs"
+  ],
+  "exclude": ["node_modules"]
+}

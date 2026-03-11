@@ -1,0 +1,732 @@
+.section {
+  position: relative;
+  padding: 144px 0 0;
+  overflow: clip;
+  background: #fff;
+}
+
+.inner {
+  display: flex;
+  width: min(1320px, calc(100% - 96px));
+  margin-inline: auto;
+  flex-direction: column;
+  gap: 120px;
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(64px, 8vw, 128px);
+}
+
+.heading {
+  max-width: 620px;
+  margin: 0;
+  color: #000;
+  font-size: var(--type-display);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  text-align: left;
+}
+
+.heading em {
+  font-family: var(--font-pt-serif), Georgia, serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.description {
+  max-width: 590px;
+  margin: 0;
+  color: #5c5c5c;
+  font-size: var(--type-body);
+  font-weight: 500;
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(460px, 0.94fr) minmax(580px, 1.06fr);
+  align-items: start;
+  gap: clamp(56px, 6vw, 88px);
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  height: 620px;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  list-style: none;
+}
+
+.serviceCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 30px 22px 24px;
+  border: 1px solid #ededed;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.serviceCard h3 {
+  max-width: calc(100% - 24px);
+  margin: 0 0 16px;
+  color: #000;
+  font-size: clamp(19px, 1.7vw, 23px);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.serviceCard p {
+  margin: 0;
+  color: #5c5c5c;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: var(--tracking-body);
+}
+
+.serviceNumber {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  color: #444;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 50%;
+  background: #d6d6d6;
+}
+
+.visual {
+  position: sticky;
+  top: 108px;
+  display: flex;
+  width: 620px;
+  max-width: 100%;
+  margin-inline: auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toolTicker {
+  position: relative;
+  width: 100%;
+  margin-top: 32px;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+}
+
+.toolTrack {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: toolTicker 72s linear infinite;
+}
+
+.toolGroup {
+  display: flex;
+  flex: none;
+  gap: 14px;
+  margin: 0;
+  padding: 0 14px 0 0;
+  list-style: none;
+}
+
+.toolPill {
+  flex: none;
+  padding: 12px 20px;
+  border: 1px solid rgb(0 0 0 / 2%);
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #626262;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: var(--tracking-body);
+  white-space: nowrap;
+}
+
+.toolTicker:hover .toolTrack,
+.toolTicker:focus-within .toolTrack {
+  animation-play-state: paused;
+}
+
+/* Orbit geometry.
+   Every radius, the node size and the portrait are fractions of one
+   `--orbit-size`, so a breakpoint only has to restate that single length and
+   the whole composition scales with it — the ring spacing, the node spacing
+   and the centre clearance stay in proportion instead of being re-derived (and
+   drifting) per screen. The fractions come from the 620px desktop design:
+   radii 276 / 214 / 152 / 90, nodes 56, portrait 84.
+
+   The 62px gap between neighbouring radii is wider than one 56px node, so
+   rings never collide radially, and 276 + 56/2 = 304 keeps the outermost node
+   inside the 310px half-box. `tests/unit/orbit.test.mts` re-derives the ring
+   capacities straight from these numbers. */
+.orbit {
+  --orbit-size: 620px;
+  --far-outer-radius: calc(var(--orbit-size) * 0.445161);
+  --outer-radius: calc(var(--orbit-size) * 0.345161);
+  --middle-radius: calc(var(--orbit-size) * 0.245161);
+  --inner-radius: calc(var(--orbit-size) * 0.145161);
+  --node-size: calc(var(--orbit-size) * 0.090323);
+  --portrait-size: calc(var(--orbit-size) * 0.135484);
+  position: relative;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+}
+
+.ring,
+.rotor {
+  position: absolute;
+  pointer-events: none;
+}
+
+@property --orbit-turn {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.ring {
+  top: 50%;
+  left: 50%;
+  width: calc(var(--ring-radius) + var(--ring-radius));
+  height: calc(var(--ring-radius) + var(--ring-radius));
+  border: 1px solid rgb(0 0 0 / 20%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.farOuterRing {
+  --ring-radius: var(--far-outer-radius);
+  border-color: rgb(0 0 0 / 22%);
+}
+
+.outerRing {
+  --ring-radius: var(--outer-radius);
+}
+
+.middleRing {
+  --ring-radius: var(--middle-radius);
+  border-color: rgb(0 0 0 / 16%);
+}
+
+.innerRing {
+  --ring-radius: var(--inner-radius);
+  border-color: rgb(0 0 0 / 12%);
+}
+
+.rotor {
+  --orbit-turn: 0deg;
+  inset: 0;
+  transform-origin: center;
+  transform: rotate(var(--orbit-turn));
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* Alternating directions, each ring a little quicker than the one outside it,
+   so the four rings read as depth rather than one rigid disc. The angles are
+   animated through `--orbit-turn`, which runs 0 -> ±360deg, so the loop
+   restarts on an identical frame and never visibly jumps. */
+.farOuterRotor {
+  animation-name: turnCounterClockwise;
+  animation-duration: 61s;
+}
+
+.outerRotor {
+  animation-name: turnClockwise;
+  animation-duration: 48s;
+}
+
+.middleRotor {
+  animation-name: turnCounterClockwise;
+  animation-duration: 38s;
+}
+
+.innerRotor {
+  animation-name: turnClockwise;
+  animation-duration: 29s;
+}
+
+.anchor {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--angle));
+}
+
+.xlarge {
+  --radius: calc(0px - var(--far-outer-radius));
+}
+
+.large {
+  --radius: calc(0px - var(--outer-radius));
+}
+
+.medium {
+  --radius: calc(0px - var(--middle-radius));
+}
+
+.small {
+  --radius: calc(0px - var(--inner-radius));
+}
+
+.node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  box-sizing: border-box;
+  width: var(--node-size);
+  min-width: var(--node-size);
+  max-width: var(--node-size);
+  height: var(--node-size);
+  min-height: var(--node-size);
+  max-height: var(--node-size);
+  aspect-ratio: 1;
+  place-items: center;
+  flex: 0 0 var(--node-size);
+  overflow: hidden;
+  border: 1px solid rgb(0 0 0 / 9%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
+  transform:
+    translate(-50%, calc(-50% + var(--radius)))
+    rotate(calc(var(--counter-angle) - var(--orbit-turn)));
+}
+
+/* Dashboard list thumbnail. The actual orbit node remains the visual source of
+   truth; only its positioning and shadow are neutralised for the 34px row. */
+.nodePreview {
+  --node-size: 34px;
+  position: relative;
+  display: block;
+  width: var(--node-size);
+  min-width: var(--node-size);
+  height: var(--node-size);
+  flex: 0 0 var(--node-size);
+}
+
+.nodePreview .node {
+  position: relative;
+  top: auto;
+  left: auto;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Non-destructive logo framing, written by the dashboard's "Logo fit" editor.
+
+   `.logoFit` fills the node and carries the offsets, so a percentage there is
+   a percentage of the node's own diameter rather than of the image — the
+   framing an administrator sets therefore holds at every `--orbit-size` the
+   breakpoints below scale to. The zoom is applied to the image itself, which
+   leaves the brand base sizes and the `[data-icon]` filters underneath working
+   exactly as they did.
+
+   Both live inside `.node`, so its `overflow: hidden` clips them to the circle,
+   and neither shares an element with the anchor's `rotate(var(--angle))` or the
+   node's counter-rotation — logo editing cannot disturb the orbit animation. */
+.logoFit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform: translate(
+    calc(var(--logo-offset-x, 0) * 1%),
+    calc(var(--logo-offset-y, 0) * 1%)
+  );
+}
+
+.logo {
+  display: block;
+  width: 58%;
+  height: 58%;
+  object-fit: contain;
+  transform: scale(var(--logo-scale, 1));
+}
+
+[data-brand="php"] .logo,
+[data-brand="java"] .logo,
+[data-brand="mysql"] .logo {
+  width: 68%;
+  height: 68%;
+}
+
+[data-brand="claude"] .node {
+  background: #fff5ee;
+}
+
+[data-brand="gemini"] .node {
+  border-color: transparent;
+  background: linear-gradient(145deg, #4e88f4 0%, #8e75b2 52%, #d96570 100%);
+}
+
+[data-brand="gemini"] .logo,
+[data-brand="chatgpt"] .logo,
+[data-brand="vscode"] .logo,
+[data-brand="github"] .logo {
+  filter: brightness(0) invert(1);
+}
+
+[data-brand="chatgpt"] .node {
+  border-color: transparent;
+  background: #10a37f;
+}
+
+[data-brand="react"] .node {
+  border-color: transparent;
+  background: #202a31;
+}
+
+[data-brand="vscode"] .node {
+  border-color: transparent;
+  background: #0877b9;
+}
+
+[data-brand="github"] .node {
+  border-color: transparent;
+  background: #24292f;
+}
+
+[data-brand="illustrator"] .node {
+  border-color: transparent;
+  background: #ff9a00;
+}
+
+[data-brand="illustrator"] .logo {
+  filter: brightness(0);
+}
+
+[data-brand="intellij"] .node {
+  background: #fff;
+}
+
+[data-brand="adobe"] .logo {
+  filter: brightness(0) invert(1);
+}
+
+[data-brand="adobe"] .node {
+  border-color: transparent;
+  background: #ed1c24;
+}
+
+[data-brand="csharp"] .node {
+  background: #fff;
+}
+
+[data-brand="javascript"] .node {
+  background: #fff9d7;
+}
+
+[data-brand="python"] .node {
+  background: #fff7cf;
+}
+
+[data-brand="clickup"] .node,
+[data-brand="canva"] .node {
+  background: #fff;
+}
+
+[data-brand="canva"] .logo {
+  width: 74%;
+  height: 74%;
+}
+
+/* Icon colour mode, set per node from the dashboard. These sit after the
+   brand rules above so an explicit choice wins, and "original" clears a brand
+   filter rather than silently keeping it. */
+[data-icon="original"] .logo {
+  filter: none;
+}
+
+[data-icon="dark"] .logo {
+  filter: brightness(0);
+}
+
+[data-icon="white"] .logo {
+  filter: brightness(0) invert(1);
+}
+
+/* GitHub's source mark is nearly black, so its default/original mode needs
+   the same white treatment as the brand preset on the dark node disc. */
+[data-brand="github"][data-icon="original"] .logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Dashboard preview only: the public page never sets this attribute. */
+.orbit[data-paused="true"] .rotor {
+  animation-play-state: paused;
+}
+
+/* One node lifted out of the orbit, for the dashboard's "Logo fit" editor.
+   The circle, the clipping, the brand rules and the framing transform are the
+   very same ones the public orbit uses; only the ring placement is dropped, so
+   what is framed here is literally what the orbit will render. The editor sets
+   `--node-size` on `.fitPreview` to pick the editing size. */
+.fitPreview {
+  position: relative;
+  width: var(--node-size);
+  height: var(--node-size);
+  cursor: grab;
+  /* The whole preview is the drag target. Capturing here keeps tracking even
+     when the pointer began over the nested image rather than the node disc. */
+  touch-action: none;
+}
+
+.fitPreview:active {
+  cursor: grabbing;
+}
+
+.fitPreview .node {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+.centerMark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: var(--portrait-size);
+  height: var(--portrait-size);
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #111;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 18%);
+  transform: translate(-50%, -50%);
+}
+
+.centerLabel {
+  color: #fff;
+  font-family: var(--font-pt-serif), Georgia, serif;
+  font-size: calc(var(--portrait-size) * 0.31);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+  transform: translate(-2%, -2%);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes turnClockwise {
+  to {
+    --orbit-turn: 360deg;
+  }
+}
+
+@keyframes turnCounterClockwise {
+  to {
+    --orbit-turn: -360deg;
+  }
+}
+
+@keyframes toolTicker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 1199px) {
+  .section {
+    padding: 120px 0 0;
+  }
+
+  .inner {
+    width: min(920px, calc(100% - 80px));
+    gap: 88px;
+  }
+
+  .intro {
+    gap: 56px;
+  }
+
+  .content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 80px;
+  }
+
+  .serviceGrid {
+    width: 100%;
+    height: 580px;
+  }
+
+  .visual {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 809px) {
+  .section {
+    padding: 96px 0 0;
+  }
+
+  .inner {
+    width: calc(100% - 40px);
+    gap: 64px;
+  }
+
+  .intro {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .heading {
+    max-width: 520px;
+  }
+
+  .description {
+    max-width: 560px;
+    font-size: var(--type-body);
+  }
+
+  .content {
+    gap: 48px;
+  }
+
+  .serviceGrid {
+    height: auto;
+    min-height: 0;
+  }
+
+  .serviceCard {
+    min-height: 154px;
+    padding: 28px 24px 22px;
+  }
+
+  .serviceCard h3 {
+    margin-bottom: 14px;
+    font-size: 22px;
+  }
+
+  .serviceCard p {
+    max-width: 38ch;
+    font-size: 16px;
+  }
+
+  .visual {
+    width: min(520px, 100%);
+  }
+
+  .orbit {
+    --orbit-size: 520px;
+  }
+}
+
+@media (max-width: 767px) {
+  .serviceGrid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 559px) {
+  .inner {
+    width: calc(100% - 32px);
+  }
+
+  .visual {
+    width: 100%;
+  }
+
+  /* Below this width the column itself is the limit, so the orbit tracks the
+     viewport rather than a fixed size. `.inner` is `100% - 32px` here, so the
+     extra 8px keeps the outermost nodes clear of the edge at 390px and at
+     326px alike — no separate narrow-phone breakpoint needed. */
+  .orbit {
+    --orbit-size: min(350px, calc(100vw - 40px));
+  }
+
+  /* Nodes are ~26-32px here, so the glyph takes a larger share of the disc to
+     stay legible. The brand overrides above still win where a logo needs more. */
+  .logo {
+    width: 66%;
+    height: 66%;
+  }
+
+  .toolGroup {
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .toolPill {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotor {
+    animation: none;
+  }
+
+  .toolTicker {
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .toolTrack {
+    width: 100%;
+    animation: none;
+  }
+
+  .toolGroup {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .toolGroup[aria-hidden="true"] {
+    display: none;
+  }
+}

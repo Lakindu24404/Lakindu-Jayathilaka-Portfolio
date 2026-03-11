@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  // `next-env.d.ts` carries Next's global augmentations (it is what adds the
+  // `next` option to `RequestInit`), so the src modules the tests import type
+  // check the same way they do in the app build. Files under `src` are checked
+  // transitively through those imports.
+  "include": [
+    "next-env.d.ts",
+    "tests/**/*.ts",
+    "tests/**/*.mts",
+    "playwright.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}

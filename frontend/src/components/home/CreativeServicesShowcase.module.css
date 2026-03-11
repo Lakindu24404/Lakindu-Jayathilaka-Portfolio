@@ -1,0 +1,284 @@
+.section {
+  --edge: 24px;
+  --row-gap: 24px;
+  --end-space: 100px;
+  --grid-gap: 16px;
+  --grid-pad: 8px;
+
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  isolation: isolate;
+  overflow: clip;
+  padding: 0 0 var(--end-space);
+  background: #fff;
+  color: #000;
+}
+
+.stickyStage {
+  grid-area: 1 / 1;
+  align-self: start;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  height: 100svh;
+  margin-inline: var(--edge);
+  padding: 0 0 32px;
+  pointer-events: none;
+}
+
+.headingGroup {
+  position: relative;
+  width: 100%;
+}
+
+.label {
+  margin: 0 0 24px;
+  color: #000;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-body);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.headings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.heading {
+  margin: 0;
+  color: #000;
+  font-size: 95px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-shadow:
+    0 0 8px #fff,
+    0 0 18px #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.35;
+}
+
+.descriptions {
+  position: absolute;
+  right: 0;
+  bottom: 32px;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  min-height: 4.05em;
+  padding: 0 var(--grid-pad);
+}
+
+.description {
+  grid-column: 2 / span 2;
+  margin: 0;
+  color: #000;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: var(--tracking-body);
+  text-align: center;
+  text-shadow:
+    0 0 6px #fff,
+    0 0 14px #fff;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+/*
+ * The service artwork deliberately travels behind the type. The brand plates
+ * range from white to near-black, so a fixed black fill can disappear at the
+ * exact overlap that gives this section its character. Difference blending
+ * keeps the same black-on-white presentation while turning the letterforms
+ * light over dark artwork. The declarations above remain the fallback for
+ * browsers that do not support blending.
+ */
+@supports (mix-blend-mode: difference) {
+  .stickyStage {
+    mix-blend-mode: difference;
+  }
+
+  .label,
+  .heading,
+  .description {
+    color: #fff;
+    text-shadow: none;
+  }
+}
+
+.imageLayer {
+  grid-area: 1 / 1;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--row-gap);
+  padding-top: calc(100svh + var(--row-gap));
+  pointer-events: none;
+}
+
+.imageRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  height: 100svh;
+  margin-inline: var(--edge);
+  padding: 0 var(--grid-pad);
+}
+
+.imagePlate {
+  position: relative;
+  align-self: start;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f2f2f2;
+}
+
+.left {
+  grid-column: 1;
+}
+
+.right {
+  grid-column: 4;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Oliver Boyle phone: max-width 809.98px */
+@media (max-width: 809px) {
+  .section {
+    --edge: 8px;
+    --row-gap: 60px;
+    --end-space: 120px;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .heading {
+    font-size: 49px;
+  }
+
+  .description {
+    grid-column: 1 / -1;
+    font-size: 11px;
+  }
+
+  .imagePlate {
+    border-radius: 6px;
+  }
+
+  .left {
+    grid-column: 1 / span 2;
+  }
+
+  .right {
+    grid-column: 3 / span 2;
+  }
+}
+
+/* Oliver Boyle tablet: 810–1199 */
+@media (min-width: 810px) and (max-width: 1199px) {
+  .heading {
+    font-size: 76px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 112px var(--edge);
+  }
+
+  .stickyStage {
+    grid-area: auto;
+    align-self: auto;
+    position: relative;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .headingGroup,
+  .descriptions {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .headings {
+    margin-bottom: 48px;
+  }
+
+  .heading {
+    white-space: normal;
+    opacity: 1;
+  }
+
+  .descriptions {
+    display: grid;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .description {
+    position: static;
+    grid-column: 1 / -1;
+    opacity: 1;
+  }
+
+  .imageLayer {
+    grid-area: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 1120px;
+    margin: 56px auto 0;
+    padding-top: 0;
+  }
+
+  .imageRow {
+    position: static;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .imagePlate {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 809px) {
+  .imageLayer {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 420px;
+  }
+}

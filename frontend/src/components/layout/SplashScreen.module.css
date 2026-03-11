@@ -1,0 +1,146 @@
+/*
+ * Fabrica®'s `PreLoader`, reproduced from the published Framer bundle
+ * (fabrica.framer.media, site DkGkUUDlmo8su2cKyvlva). Every number below is
+ * the component's own: variant 1 holds a full-bleed #0a0a0a curtain for 1500ms
+ * while the wordmark rises into the middle of it, then variant 3 drops the
+ * curtain to a 2px strip sitting 2px above the top edge and parks the wordmark
+ * at -240px. Framer plays that variant change over 0.9s, which reads as a
+ * blind rolling up and taking the wordmark with it.
+ *
+ * The sequence runs from CSS rather than JavaScript so the curtain is already
+ * down on the first paint — Framer marks the reference's appear animations
+ * `optimized`, which behaves the same way. React only unmounts the finished
+ * overlay.
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* The stage clips both ends of the run: the wordmark starts 640px below the
+     middle and leaves 240px above the top edge. */
+  overflow: hidden;
+  /* Swallows clicks and touch scrolling for as long as the curtain is down,
+     exactly as the reference overlay does. */
+  pointer-events: auto;
+  touch-action: none;
+  /* Belt and braces. If hydration never arrives, the overlay still steps out
+     of the way on its own instead of sealing the site shut. */
+  animation: splash-release 1ms linear 2.4s forwards;
+}
+
+.curtain {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a;
+  /* Variant 3 pins the strip's top edge at -2px, so the curtain collapses into
+     the top of the viewport rather than sliding away as a block. */
+  transform-origin: top center;
+  animation: splash-lift 0.9s cubic-bezier(0.96, -0.02, 0.38, 1.01) 1.5s both;
+  will-change: transform;
+}
+
+/* Centring only. The exit lives on the child so that every animated value in
+   this file is a transform: the curtain's lift is composited, and a wordmark
+   animated through `top` would fall behind it the moment the main thread is
+   busy — which, during a page load, is exactly when this plays. */
+.word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  white-space: pre;
+  transform: translate(-50%, -50%);
+}
+
+/* -240px from the top of the stage, expressed from the centred position: half
+   the viewport, less the half-line the centring transform already took off. */
+.exit {
+  animation: splash-exit 0.9s cubic-bezier(0.96, -0.02, 0.38, 1.01) 1.5s both;
+  will-change: transform;
+}
+
+.line {
+  margin: 0;
+  color: #fff;
+  /* The reference sets its wordmark in Inter SemiBold; the family is scoped to
+     the splash so the rest of the single-family Geist system is untouched. */
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 110%;
+  animation: splash-rise 2.1s cubic-bezier(0.56, 0.22, 0.05, 0.99) both;
+  will-change: transform, opacity;
+}
+
+/* Framer tokenizes the wordmark by character and staggers the tokens 90ms
+   apart, 300ms after mount. */
+.char {
+  display: inline-block;
+  animation: splash-char 0.4s cubic-bezier(0.96, -0.02, 0.38, 1.01)
+    calc(0.3s + var(--i) * 0.09s) both;
+  will-change: transform, opacity, filter;
+}
+
+/* Both stops list the same functions in the same order. A bare `scaleY(1)`
+   start would force the browser to interpolate through matrix decomposition,
+   and a matrix scaled to zero cannot be decomposed, so the curtain would jump
+   rather than roll. */
+@keyframes splash-lift {
+  from {
+    transform: translateY(0) scaleY(1);
+  }
+  to {
+    transform: translateY(-2px) scaleY(0);
+  }
+}
+
+@keyframes splash-exit {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    /* -240px - 50vh + half of the 41.8px line (38px at 110%). */
+    transform: translateY(calc(-50vh - 219.1px));
+  }
+}
+
+@keyframes splash-rise {
+  from {
+    opacity: 0.001;
+    transform: translateY(640px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-char {
+  from {
+    opacity: 0.001;
+    filter: blur(5px);
+    transform: translateY(270px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-release {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* A curtain that has to be waited out is exactly the kind of motion this
+   preference is asking to be spared. */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    display: none;
+  }
+}

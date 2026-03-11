@@ -1,0 +1,71 @@
+/* Match the preceding Projects surface so only the expanding circle is visible. */
+.section { position: relative; z-index: 10; background: #fff; color: #fff; }
+.band { position: relative; padding: 128px 0; background: #000; mask-image: radial-gradient(closest-side, #000 100%, transparent 100%); mask-position: center; mask-repeat: no-repeat; }
+.container { width: 100%; max-width: 1500px; margin: 0 auto; padding: 0 64px 0 54px; }
+.layout { display: flex; justify-content: space-between; align-items: center; transform-origin: center; }
+.sidebar { display: flex; flex-direction: column; justify-content: space-between; width: 32%; height: 627px; min-width: 0; container-type: inline-size; container-name: contact-sidebar; }
+.headingGroup { display: flex; flex-direction: column; gap: 16px; }
+.headingGroup h2 { margin: 0; font-size: var(--type-display); font-weight: 600; line-height: var(--leading-display); letter-spacing: var(--tracking-display); }
+.headingGroup p { margin: 0; color: #999; font-size: 16px; font-weight: 500; line-height: 1.3; letter-spacing: -.03em; }
+.media { display: flex; flex-direction: column; gap: 16px; }
+.portrait { overflow: hidden; aspect-ratio: 4 / 3; border-radius: 12px; background: #4e6d72; }
+.portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 26%; }
+.tabs { display: flex; gap: 6px; padding: 6px; border-radius: 14px; background: #1a1a1a; }
+.tab { display: flex; flex: none; align-items: center; justify-content: center; height: 44px; border: 0; border-radius: 12px; padding: 0; overflow: hidden; cursor: pointer; font-size: 16px; font-weight: 500; line-height: 1.2; letter-spacing: -.03em; }
+.tab > svg { flex: none; }
+.tab > span { overflow: hidden; white-space: nowrap; margin-left: 8px; }
+.tab:hover { filter: brightness(.92); }
+.tab:focus-visible, .submit:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.panelArea { width: 49%; min-width: 0; }
+.form { display: flex; flex-direction: column; gap: 40px; }
+.fields { display: flex; flex-direction: column; gap: 24px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field label { color: #fff; font-size: 15px; font-weight: 500; line-height: 1.3; letter-spacing: -.03em; }
+.input { display: block; width: 100%; height: 48px; min-width: 0; border: 0; border-radius: 12px; padding: 14px; background: #1a1a1a; color: #fff; outline: none; font: inherit; font-size: 14px; font-weight: 400; line-height: 1.3; letter-spacing: -.03em; transition: box-shadow .2s ease, background-color .2s ease; color-scheme: dark; }
+.input::placeholder { color: #999; opacity: 1; }
+.input:focus-visible { box-shadow: 0 0 0 2px #666; background: #202020; }
+textarea.input { height: 140px; min-height: 140px; resize: vertical; }
+.selectWrap { position: relative; }
+.selectWrap select { appearance: none; padding-right: 38px; cursor: pointer; }
+.selectWrap svg { position: absolute; right: 18px; top: 20px; color: #999; pointer-events: none; }
+.submitGroup { display: flex; flex-direction: column; gap: 12px; }
+.submit { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; padding: 14px 16px; border: 0; border-radius: 12px; background: #fff; color: #000; cursor: pointer; font-size: 16px; font-weight: 500; line-height: 1.2; letter-spacing: -.03em; text-decoration: none; box-shadow: 0 10px 20px #00000059, inset 0 2px 3px #ffffff40; transition: background-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.submit:hover { background: #e5e5e5; box-shadow: 0 4px 8px #00000040, inset 0 2px 3px #ffffff40; }
+.submit:active { transform: scale(.98); }
+.status { margin: 0; color: #b3b3b3; font-size: 13px; line-height: 1.5; }
+.booking { display: flex; min-height: 633.5px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 24px; padding: 40px; border: 1px solid #272727; border-radius: 14px; background: #171717; }
+.bookingIcon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: #292929; }
+.booking h3 { max-width: 380px; margin: 0; font-size: 38px; font-weight: 500; line-height: 1.1; }
+.booking p { margin: 0 0 16px; color: #aaa; font-size: 16px; line-height: 1.5; }
+.email { max-width: 100%; overflow-wrap: anywhere; color: #999; font-size: 14px; }
+@container contact-sidebar (max-width: 300px) { .tabs { flex-direction: column; } .tab { width: 100% !important; } }
+@media (max-width: 1199px) {
+  .band { padding: 100px 0; }
+  .container { padding: 0 40px; }
+  .layout { align-items: stretch; }
+  .sidebar { height: auto; }
+  .panelArea { width: 57%; }
+  .identityRow { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 809px) {
+  .container { padding: 0 20px; }
+  .layout { flex-direction: column; gap: 48px; }
+  .sidebar { width: 100%; height: auto; gap: 32px; }
+  .portrait { display: none; }
+  .panelArea { width: 100%; }
+  .pair { grid-template-columns: minmax(0, 1fr); }
+  .booking { min-height: 0; padding: 24px; }
+  .booking h3 { font-size: clamp(26px, 7vw, 32px); }
+}
+
+@media (max-width: 767px) {
+  .band { padding: 72px 0; }
+  .layout { gap: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .band { mask-image: none !important; }
+  .layout { transform: none !important; opacity: 1 !important; }
+  .submit:active { transform: none; }
+}

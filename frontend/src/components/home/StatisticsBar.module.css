@@ -1,0 +1,97 @@
+.section {
+  position: relative;
+  z-index: 11;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(88px, 8.3vw, 120px) clamp(24px, 5vw, 64px)
+    clamp(96px, 9vw, 132px);
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.numberWindow {
+  display: block;
+  overflow: hidden;
+  min-width: 3ch;
+  padding: 0.08em 0 0.04em;
+  margin: -0.08em 0 -0.04em;
+  text-align: center;
+}
+
+.number {
+  display: block;
+  color: #fff;
+  font-size: clamp(58px, 5.85vw, 84px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  will-change: transform, opacity;
+}
+
+.label {
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 999px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 58px 40px;
+    padding: 82px 40px 98px;
+  }
+
+  .number {
+    font-size: clamp(58px, 7.55vw, 72px);
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    padding: 64px 20px 72px;
+  }
+
+  .item {
+    gap: 10px;
+  }
+
+  .number {
+    font-size: clamp(42px, 12vw, 52px);
+  }
+
+  .label {
+    max-width: 140px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .number,
+  .label {
+    will-change: auto;
+  }
+}
