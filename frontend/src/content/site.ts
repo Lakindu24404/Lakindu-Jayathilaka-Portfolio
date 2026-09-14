@@ -1,6 +1,7 @@
 export const site = {
   footerWordmark: "LAKINDU",
   firstName: "Lakindu",
+  fullName: "Lakindu Jayathilaka",
   roles: [
     "Backend Developer",
     "Frontend Developer",

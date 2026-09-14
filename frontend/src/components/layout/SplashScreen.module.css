@@ -66,7 +66,7 @@
   /* The reference sets its wordmark in Inter SemiBold; the family is scoped to
      the splash so the rest of the single-family Geist system is untouched. */
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  font-size: 38px;
+  font-size: clamp(28px, 8vw, 38px);
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 110%;
@@ -74,12 +74,12 @@
   will-change: transform, opacity;
 }
 
-/* Framer tokenizes the wordmark by character and staggers the tokens 90ms
-   apart, 300ms after mount. */
+/* Tokenize the full name by character. A tighter stagger lets the longer
+   wordmark finish entering before the curtain starts to lift. */
 .char {
   display: inline-block;
   animation: splash-char 0.4s cubic-bezier(0.96, -0.02, 0.38, 1.01)
-    calc(0.3s + var(--i) * 0.09s) both;
+    calc(0.3s + var(--i) * 0.045s) both;
   will-change: transform, opacity, filter;
 }
 

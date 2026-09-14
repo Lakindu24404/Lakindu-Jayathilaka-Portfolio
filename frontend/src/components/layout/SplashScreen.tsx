@@ -60,7 +60,7 @@ export function SplashScreen() {
       <div className={styles.word}>
         <div className={styles.exit}>
           <p className={styles.line}>
-            {[...site.firstName].map((character, index) => (
+            {[...site.fullName].map((character, index) => (
               <span
                 key={`${character}-${index}`}
                 className={styles.char}
