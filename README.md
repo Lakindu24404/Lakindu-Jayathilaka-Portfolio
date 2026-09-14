@@ -3,7 +3,7 @@
 Production-ready portfolio built with Next.js 16 and Supabase. The repository
 contains two packages:
 
-- `frontend/` — the website and admin dashboard deployed to Vercel
+- `frontend/`  — the website and admin dashboard deployed to Vercel
 - `backend/` — Supabase migrations, seed import and database checks
 
 ## Local setup
