@@ -8,6 +8,7 @@ import { Services } from "@/components/home/Services";
 import { Stack } from "@/components/home/Stack";
 import { StatisticsBar } from "@/components/home/StatisticsBar";
 import { TopNav } from "@/components/layout/TopNav";
+import { LavaBackground } from "@/components/effects/LavaBackground";
 import { getHomepageProjects, getPublicStack } from "@/lib/data/public";
 
 export default async function Home() {
@@ -17,9 +18,10 @@ export default async function Home() {
   ]);
 
   return (
-    <>
+    <div className="relative isolate min-h-svh bg-black">
+      <LavaBackground blueStartId="services" blueEndId="projects" />
       <TopNav />
-      <main>
+      <main className="relative z-10">
         <div className="relative">
           <Hero />
           <About />
@@ -32,6 +34,6 @@ export default async function Home() {
         <GetInTouch />
         <Contact />
       </main>
-    </>
+    </div>
   );
 }
