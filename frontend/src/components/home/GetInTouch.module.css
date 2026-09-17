@@ -1,6 +1,6 @@
 /* Match the preceding Projects surface so only the expanding circle is visible. */
-.section { position: relative; z-index: 10; background: #fff; color: #fff; }
-.band { position: relative; padding: 128px 0; background: #000; mask-image: radial-gradient(closest-side, #000 100%, transparent 100%); mask-position: center; mask-repeat: no-repeat; }
+.section { position: relative; z-index: 10; background: transparent; color: #fff; }
+.band { position: relative; padding: 128px 0; background: rgb(0 0 0 / 52%); backdrop-filter: blur(16px); mask-image: radial-gradient(closest-side, #000 100%, transparent 100%); mask-position: center; mask-repeat: no-repeat; }
 .container { width: 100%; max-width: 1500px; margin: 0 auto; padding: 0 64px 0 54px; }
 .layout { display: flex; justify-content: space-between; align-items: center; transform-origin: center; }
 .sidebar { display: flex; flex-direction: column; justify-content: space-between; width: 32%; height: 627px; min-width: 0; container-type: inline-size; container-name: contact-sidebar; }

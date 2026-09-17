@@ -1,9 +1,21 @@
+.page {
+  position: relative;
+  min-height: 100svh;
+  isolation: isolate;
+  background: #000;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
 .main {
   display: flex;
   flex-direction: column;
   gap: 96px;
   padding: 192px 24px;
-  background: #fff;
+  background: transparent;
 }
 
 .hero {
@@ -16,12 +28,13 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  color: var(--color-ink);
+  color: #fff;
   font-size: var(--type-display);
   font-weight: 600;
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
   text-align: center;
+  text-shadow: 0 2px 18px rgb(0 0 0 / 45%);
 }
 
 .gallery {
@@ -43,9 +56,11 @@
 
 .photoFrame {
   padding: 24px;
+  border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 48px;
-  background: var(--color-surface);
-  backdrop-filter: blur(5px);
+  background: rgb(8 8 8 / 42%);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(18px);
 }
 
 .photoFrame img {
@@ -82,6 +97,7 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
+  color: rgb(255 255 255 / 68%);
 }
 
 .metadata > div {
@@ -92,6 +108,7 @@
 
 .metadata dd {
   margin: 0;
+  color: #fff;
   text-align: right;
 }
 
@@ -103,7 +120,7 @@
 
 .article {
   grid-column: span 2;
-  color: var(--color-ink-muted);
+  color: rgb(255 255 255 / 76%);
   font-size: var(--type-body);
   font-weight: 500;
   line-height: var(--leading-body);
@@ -119,7 +136,7 @@
 
 .article h2,
 .related h2 {
-  color: var(--color-ink);
+  color: #fff;
   font-size: var(--type-title-lg);
   font-weight: 500;
   line-height: 1.2;
@@ -130,7 +147,7 @@
 }
 
 .article h3 {
-  color: var(--color-ink);
+  color: #fff;
   font-size: var(--type-title-md);
   font-weight: 500;
   line-height: 1.2;
@@ -169,8 +186,11 @@
 
 .relatedFrame {
   padding: 24px;
+  border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 48px;
-  background: var(--color-surface);
+  background: rgb(8 8 8 / 42%);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 16%);
+  backdrop-filter: blur(18px);
 }
 
 .relatedImage {
@@ -199,11 +219,12 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
+  color: rgb(255 255 255 / 68%);
 }
 
 .relatedCaption h3 {
   margin: 0;
-  color: var(--color-ink);
+  color: #fff;
   font-size: 28px;
   font-weight: 500;
   line-height: 1.2;
@@ -257,8 +278,9 @@
   overflow: hidden;
   padding: 6px;
   border-radius: 96px;
-  background: var(--color-surface-hover);
-  backdrop-filter: blur(5px);
+  border: 1px solid rgb(255 255 255 / 15%);
+  background: rgb(8 8 8 / 42%);
+  backdrop-filter: blur(14px);
 }
 
 .actionInner {

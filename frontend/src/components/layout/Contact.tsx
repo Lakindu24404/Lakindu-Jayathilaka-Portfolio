@@ -86,16 +86,16 @@ export function Contact() {
   return (
     <footer
       id="contact"
-      className="flex flex-col overflow-clip bg-[#f4f4f4] pt-16 [--gutter:20px] md:pt-20 md:[--gutter:40px] lg:[--gutter:64px]"
+      className="flex flex-col overflow-clip bg-black/35 pt-16 text-white backdrop-blur-xl [--gutter:20px] md:pt-20 md:[--gutter:40px] lg:[--gutter:64px]"
     >
       {/* Row 1 — 500px newsletter column against the two link columns. */}
       <div className="flex flex-col gap-12 px-[var(--gutter)] lg:flex-row lg:items-start lg:justify-between">
         <div className="flex w-full max-w-[500px] flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <h2 className="text-[clamp(32px,3.44vw,44px)] font-semibold leading-[1.1] text-ink">
+            <h2 className="text-[clamp(32px,3.44vw,44px)] font-semibold leading-[1.1] text-white">
               <TextReveal>{footer.newsletter.heading}</TextReveal>
             </h2>
-            <p className="text-base font-medium leading-[1.3] text-[#605f5f]">
+            <p className="text-base font-medium leading-[1.3] text-white/70">
               <TextReveal variant="copy" delay={0.1}>
                 {footer.newsletter.blurb}
               </TextReveal>
@@ -113,11 +113,11 @@ export function Contact() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder={footer.newsletter.placeholder}
-              className="h-[51px] w-full rounded-[12px] bg-[#e6e6e6] px-4 text-base font-medium leading-[1.2] text-ink outline-none placeholder:text-[#999] focus-visible:ring-2 focus-visible:ring-ink/20 sm:flex-1"
+              className="h-[51px] w-full rounded-[12px] border border-white/15 bg-black/40 px-4 text-base font-medium leading-[1.2] text-white outline-none placeholder:text-white/45 focus-visible:ring-2 focus-visible:ring-white/45 sm:flex-1"
             />
             <button
               type="submit"
-              className="h-[51px] w-full rounded-[12px] bg-ink text-base font-medium leading-[1.2] text-white transition-colors duration-300 ease-[var(--ease-out-soft)] hover:bg-[#1a1a1a] sm:w-auto sm:px-8"
+              className="h-[51px] w-full rounded-[12px] bg-white text-base font-medium leading-[1.2] text-black transition-colors duration-300 ease-[var(--ease-out-soft)] hover:bg-[#ededed] sm:w-auto sm:px-8"
             >
               {footer.newsletter.submit}
             </button>
@@ -127,7 +127,7 @@ export function Contact() {
         <div className="flex w-full justify-between gap-8 sm:justify-start sm:gap-16 lg:w-auto lg:gap-20">
           {footer.columns.map((column) => (
             <div key={column.label} className="flex flex-col gap-4">
-              <p className="text-[15px] font-medium leading-[1.3] tracking-[-0.03em] text-[#999]">
+              <p className="text-[15px] font-medium leading-[1.3] tracking-[-0.03em] text-white/55">
                 {column.label}
               </p>
               <ul className="flex flex-col gap-2">
@@ -137,7 +137,7 @@ export function Contact() {
                       href={link.href}
                       height={34}
                       className="w-max"
-                      lineClassName="whitespace-nowrap text-[clamp(22px,5.4vw,28px)] font-medium leading-[1.2] tracking-[-0.04em] text-ink"
+                      lineClassName="whitespace-nowrap text-[clamp(22px,5.4vw,28px)] font-medium leading-[1.2] tracking-[-0.04em] text-white"
                     >
                       {link.label}
                     </RollLink>
@@ -152,10 +152,10 @@ export function Contact() {
       {/* Row 2 — email on the left, social discs pinned right. */}
       <div className="mt-12 flex flex-col gap-8 px-[var(--gutter)] lg:mt-16 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 lg:gap-6">
-          <p className="whitespace-nowrap text-[15px] font-medium leading-[1.3] tracking-[-0.03em] text-[#999]">
+          <p className="whitespace-nowrap text-[15px] font-medium leading-[1.3] tracking-[-0.03em] text-white/55">
             {footer.emailLabel}
           </p>
-          <h3 className="min-w-0 text-[clamp(18px,4.5vw,26px)] font-medium leading-[1.2] text-ink lg:text-[clamp(24px,3vw,32px)]">
+          <h3 className="min-w-0 text-[clamp(18px,4.5vw,26px)] font-medium leading-[1.2] text-white lg:text-[clamp(24px,3vw,32px)]">
             <a
               href={`mailto:${contact.email}`}
               className="break-all transition-colors duration-300 ease-[var(--ease-out-soft)] hover:text-accent lg:break-normal"
@@ -173,7 +173,7 @@ export function Contact() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={social.label}
-                className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-white transition-transform duration-300 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
+                className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-black transition-transform duration-300 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
               >
                 <svg
                   width="28"
@@ -201,7 +201,7 @@ export function Contact() {
           animate={{ y: reduce || wordInView ? 0 : "60%" }}
           transition={footerSpring}
           style={wordSize ? { fontSize: wordSize } : undefined}
-          className="whitespace-nowrap text-center text-[18.4vw] font-semibold leading-[0.85] tracking-[-0.06em] text-ink opacity-5"
+          className="whitespace-nowrap text-center text-[18.4vw] font-semibold leading-[0.85] tracking-[-0.06em] text-white opacity-10"
         >
           {site.footerWordmark}
         </motion.p>

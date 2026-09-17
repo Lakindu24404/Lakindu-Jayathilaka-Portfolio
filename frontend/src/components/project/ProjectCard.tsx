@@ -27,7 +27,7 @@ export function ProjectCard({
         animate="rest"
         whileHover={reduce ? undefined : "hover"}
       >
-        <div className="rounded-panel bg-surface p-[19px]">
+        <div className="rounded-panel bg-black/30 p-[19px] ring-1 ring-white/15 backdrop-blur-md">
           <div className="relative overflow-hidden rounded-card">
             <div className="relative aspect-[451/306] w-full">
               <motion.img
@@ -47,8 +47,8 @@ export function ProjectCard({
             </div>
           </div>
         </div>
-        <p className="mt-2.5 px-[19px] text-sm font-medium leading-[1.4] text-ink-muted">{tag}</p>
-        <h3 className="mt-1 px-[19px] text-[length:var(--type-title-md)] font-medium leading-[var(--leading-title)] text-ink">
+        <p className="mt-2.5 px-[19px] text-sm font-medium leading-[1.4] text-white/70">{tag}</p>
+        <h3 className="mt-1 px-[19px] text-[length:var(--type-title-md)] font-medium leading-[var(--leading-title)] text-white drop-shadow-[0_2px_12px_rgb(0_0_0/0.5)]">
           <TextReveal>{title}</TextReveal>
         </h3>
       </motion.a>

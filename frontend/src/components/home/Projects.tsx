@@ -20,14 +20,14 @@ export function Projects({ items }: { items: PublicProject[] }) {
   return (
     <section
       id="projects"
-      className="relative z-20 isolate bg-white pb-[clamp(96px,16vw,192px)]"
+      className="relative z-20 isolate bg-transparent pb-[clamp(96px,16vw,192px)]"
     >
       <header className="pt-[clamp(64px,10vw,160px)] pb-[clamp(32px,4vw,64px)]">
         <div className="mx-auto w-[calc(100%-32px)] md:w-[calc(100%-48px)] lg:w-[90vw]">
-          <h2 className="max-w-[18ch] text-[length:var(--type-display)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-black">
+          <h2 className="max-w-[18ch] text-[length:var(--type-display)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-white drop-shadow-[0_2px_18px_rgb(0_0_0/0.45)]">
             <TextReveal>{projects.heading}</TextReveal>
           </h2>
-          <p className="mt-[clamp(20px,2vw,30px)] max-w-[60ch] text-[length:var(--type-body)] font-medium leading-[var(--leading-body)] tracking-[var(--tracking-body)] text-[#5f5f5f]">
+          <p className="mt-[clamp(20px,2vw,30px)] max-w-[60ch] text-[length:var(--type-body)] font-medium leading-[var(--leading-body)] tracking-[var(--tracking-body)] text-white/75 drop-shadow-[0_2px_14px_rgb(0_0_0/0.45)]">
             <TextReveal variant="copy" delay={0.1}>
               {projects.description}
             </TextReveal>

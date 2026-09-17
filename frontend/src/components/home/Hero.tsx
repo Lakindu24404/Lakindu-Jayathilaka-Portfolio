@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 import { FloatingShapes } from "@/components/effects/FloatingShapes";
-import { ParticleField } from "@/components/effects/ParticleField";
 import { RotatingText } from "@/components/effects/RotatingText";
 import { ScrollRing } from "@/components/effects/ScrollRing";
 import { TextReveal } from "@/components/effects/TextReveal";
@@ -127,15 +126,11 @@ export function Hero() {
       id="home"
       className="relative z-0 flex min-h-svh items-center justify-center overflow-x-clip px-5 pt-[88px] pb-10 md:px-8 md:pt-[96px] md:pb-12"
     >
-      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-        <ParticleField />
-      </div>
-
       <FloatingShapes scrollY={scrollY} />
 
       <div className="relative flex w-full max-w-[720px] flex-col items-center text-center">
         <motion.div style={{ y: titleY }} className="relative z-20">
-          <h1 className="text-[length:var(--type-display-hero)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-ink">
+          <h1 className="text-[length:var(--type-display-hero)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-white drop-shadow-[0_2px_18px_rgb(0_0_0/0.5)]">
             <TextReveal>
               Hi, I&apos;m{" "}
               <span className="font-semibold not-italic">
@@ -153,7 +148,7 @@ export function Hero() {
           >
             <RotatingText
               items={site.roles}
-              className="text-[15px] text-ink-muted md:text-xl"
+              className="text-[15px] text-white/75 drop-shadow-[0_2px_12px_rgb(0_0_0/0.6)] md:text-xl"
             />
           </motion.div>
         </motion.div>
@@ -177,7 +172,8 @@ export function Hero() {
               alt="Lakindu Jayathilaka signature"
               width={1600}
               height={900}
-              className="h-auto w-[clamp(168px,48vw,220px)] select-none md:w-[clamp(240px,34vw,320px)] min-[1200px]:w-[clamp(280px,28vw,390px)]"
+              priority
+              className="h-auto w-[clamp(168px,48vw,220px)] select-none invert drop-shadow-[0_2px_16px_rgb(0_0_0/0.55)] md:w-[clamp(240px,34vw,320px)] min-[1200px]:w-[clamp(280px,28vw,390px)]"
               draggable={false}
             />
           </motion.div>
