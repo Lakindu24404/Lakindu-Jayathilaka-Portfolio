@@ -11,10 +11,12 @@
 .canvas {
   position: absolute;
   z-index: 0;
-  top: -5%;
-  left: -5%;
-  width: 110%;
-  height: 110%;
+  /* Keep the blur kernel well outside narrow mobile/tablet viewports. A
+     percentage overscan can shrink below the 40px blur radius and expose the
+     red fallback as a straight seam along the viewport edges. */
+  inset: -80px;
+  width: calc(100% + 160px);
+  height: calc(100% + 160px);
   filter: blur(40px);
 }
 
