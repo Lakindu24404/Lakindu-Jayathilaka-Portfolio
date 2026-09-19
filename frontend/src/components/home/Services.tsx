@@ -214,12 +214,11 @@ export function Services() {
                     // measured: only process-research.png was ever fetched,
                     // even after scrolling the whole section. The result was a
                     // card animating into place over an empty grey frame.
-                    // Four images, 25-340 KB each, so eager is cheap; the
-                    // later ones drop to low priority so they never compete
-                    // with the hero.
+                    // Four images, resized and re-encoded by the optimizer, so
+                    // eager is cheap; the later ones drop to low priority so
+                    // they never compete with the hero.
                     loading="eager"
                     fetchPriority={index === 0 ? "high" : "low"}
-                    unoptimized
                     className={styles.image}
                   />
                 </motion.div>

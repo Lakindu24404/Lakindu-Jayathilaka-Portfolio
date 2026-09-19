@@ -1,6 +1,7 @@
 .stage {
   --shape-min: 120px;
   --shape-cap: 999px;
+  --bob-scale: 1;
   pointer-events: none;
   position: absolute;
   inset: 0;
@@ -29,12 +30,40 @@
   user-select: none;
 }
 
+/* Scroll parallax moves this every frame; its own layer keeps that a
+   compositor-only move instead of a repaint of the hero. */
+.parallax {
+  will-change: transform;
+}
+
+/* The linear mirror bob: `--bob` px over `--bob-duration` each way, scaled
+   down with the solids on smaller screens. */
+.bob {
+  animation: shape-bob var(--bob-duration) linear infinite alternate;
+}
+
+@keyframes shape-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(var(--bob) * var(--bob-scale)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bob {
+    animation: none;
+  }
+}
+
 /* iPad / compact tablet: all six solids, inset so they frame the portrait
    instead of colliding with it. */
 @media (min-width: 768px) and (max-width: 1199px) {
   .stage {
     --shape-min: 96px;
     --shape-cap: 168px;
+    --bob-scale: 0.7;
   }
 
   .shape {
@@ -48,6 +77,7 @@
   .stage {
     --shape-min: 96px;
     --shape-cap: 120px;
+    --bob-scale: 0.55;
   }
 
   .shape {

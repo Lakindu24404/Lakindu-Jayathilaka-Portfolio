@@ -100,7 +100,12 @@ export function StackOrbit({
       ))}
 
       {ORBIT_RINGS.map((ring) => (
-        <div key={ring} className={`${styles.rotor} ${RING_CLASSES[ring].rotor}`}>
+        // Rotor and nodes run paired animations that must start together to
+        // keep the logos upright, so a ring whose nodes change remounts whole.
+        <div
+          key={`${ring}:${rings[ring].map((node) => node.id).join(",")}`}
+          className={`${styles.rotor} ${RING_CLASSES[ring].rotor}`}
+        >
           {rings[ring].map((node) => (
             <OrbitNode key={node.id} node={node} />
           ))}

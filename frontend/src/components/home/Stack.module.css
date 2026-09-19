@@ -172,7 +172,9 @@
   border-radius: 999px;
   background: rgb(8 8 8 / 52%);
   color: rgb(255 255 255 / 82%);
-  backdrop-filter: blur(12px);
+  /* No backdrop-filter: inside the masked ticker the pills' backdrop is the
+     ticker's own transparent layer, so a blur here changed no pixels and
+     only added an offscreen pass per pill. */
   font-family: var(--font-sans);
   font-size: 15px;
   font-weight: 500;
@@ -217,12 +219,6 @@
   pointer-events: none;
 }
 
-@property --orbit-turn {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
-
 .ring {
   top: 50%;
   left: 50%;
@@ -253,19 +249,22 @@
 }
 
 .rotor {
-  --orbit-turn: 0deg;
   inset: 0;
   transform-origin: center;
-  transform: rotate(var(--orbit-turn));
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
 }
 
 /* Alternating directions, each ring a little quicker than the one outside it,
-   so the four rings read as depth rather than one rigid disc. The angles are
-   animated through `--orbit-turn`, which runs 0 -> ±360deg, so the loop
-   restarts on an identical frame and never visibly jumps. */
+   so the four rings read as depth rather than one rigid disc. Each rotor turns
+   a full ±360deg, so the loop restarts on an identical frame and never
+   visibly jumps.
+
+   These animate `transform` itself so they run on the compositor. They used
+   to animate a registered `--orbit-turn` property that the nodes also read,
+   which cost a main-thread style recalculation and repaint of every node on
+   every frame, even with the orbit off screen. */
 .farOuterRotor {
   animation-name: turnCounterClockwise;
   animation-duration: 61s;
@@ -308,6 +307,25 @@
   --radius: calc(0px - var(--inner-radius));
 }
 
+/* Each node turns against its rotor at the same rate so its logo stays
+   upright: the pair share a duration and start together (StackOrbit remounts
+   a ring's rotor whenever its nodes change, so they always do). */
+.xlarge .node {
+  animation: uprightCounterClockwise 61s linear infinite;
+}
+
+.large .node {
+  animation: uprightClockwise 48s linear infinite;
+}
+
+.medium .node {
+  animation: uprightCounterClockwise 38s linear infinite;
+}
+
+.small .node {
+  animation: uprightClockwise 29s linear infinite;
+}
+
 .node {
   position: absolute;
   top: 50%;
@@ -328,9 +346,12 @@
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
+  /* Half the node's own size, as a length rather than -50%, so the upright
+     animation's keyframes are plain lengths the compositor can run. */
+  --node-offset: calc(var(--node-size) * -0.5);
   transform:
-    translate(-50%, calc(-50% + var(--radius)))
-    rotate(calc(var(--counter-angle) - var(--orbit-turn)));
+    translate(var(--node-offset), calc(var(--node-offset) + var(--radius)))
+    rotate(var(--counter-angle));
 }
 
 /* Dashboard list thumbnail. The actual orbit node remains the visual source of
@@ -493,7 +514,8 @@
 }
 
 /* Dashboard preview only: the public page never sets this attribute. */
-.orbit[data-paused="true"] .rotor {
+.orbit[data-paused="true"] .rotor,
+.orbit[data-paused="true"] .node {
   animation-play-state: paused;
 }
 
@@ -562,14 +584,47 @@
 }
 
 @keyframes turnClockwise {
+  from {
+    transform: rotate(0deg);
+  }
   to {
-    --orbit-turn: 360deg;
+    transform: rotate(360deg);
   }
 }
 
 @keyframes turnCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
   to {
-    --orbit-turn: -360deg;
+    transform: rotate(-360deg);
+  }
+}
+
+/* Counter-rotation for nodes on a clockwise rotor, and vice versa. */
+@keyframes uprightClockwise {
+  from {
+    transform:
+      translate(var(--node-offset), calc(var(--node-offset) + var(--radius)))
+      rotate(var(--counter-angle));
+  }
+  to {
+    transform:
+      translate(var(--node-offset), calc(var(--node-offset) + var(--radius)))
+      rotate(calc(var(--counter-angle) - 360deg));
+  }
+}
+
+@keyframes uprightCounterClockwise {
+  from {
+    transform:
+      translate(var(--node-offset), calc(var(--node-offset) + var(--radius)))
+      rotate(var(--counter-angle));
+  }
+  to {
+    transform:
+      translate(var(--node-offset), calc(var(--node-offset) + var(--radius)))
+      rotate(calc(var(--counter-angle) + 360deg));
   }
 }
 
@@ -710,7 +765,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rotor {
+  .rotor,
+  .xlarge .node,
+  .large .node,
+  .medium .node,
+  .small .node {
     animation: none;
   }
 

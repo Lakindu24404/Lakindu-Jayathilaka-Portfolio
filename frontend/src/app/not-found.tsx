@@ -8,10 +8,14 @@ export default function NotFound() {
     <>
       <TopNav />
       <main className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 pt-24">
+        {/* Lazy so React does not emit a preload for it: this boundary ships
+            with every page, and the homepage would fetch the raw PNG for
+            nothing. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/star-teal.png"
+          src="/images/star-teal.webp"
           alt=""
+          loading="lazy"
           className="pointer-events-none absolute right-[10%] top-[20%] w-[240px] select-none"
           aria-hidden
         />

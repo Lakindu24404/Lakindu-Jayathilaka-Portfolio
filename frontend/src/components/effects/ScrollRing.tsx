@@ -1,8 +1,6 @@
-"use client";
-
-import { useId } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useId, type CSSProperties } from "react";
 import { SCROLL_RING_SECONDS } from "@/lib/motion";
+import styles from "./ScrollRing.module.css";
 
 /**
  * 140px circular arc-text on the back of the Profile Photo. Read off the live
@@ -11,30 +9,31 @@ import { SCROLL_RING_SECONDS } from "@/lib/motion";
  * at 12 user units / 400 with no letter- or word-spacing, one turn of copy,
  * rotating once per 20s. A 96px hairline circle sits inside it around a thin
  * down-arrow that bobs 12px on a 1s linear mirror loop.
+ *
+ * Both loops are CSS animations so they run on the compositor. The ring sits
+ * on the card's back face, hidden until the card flips, so `active` holds them
+ * still whenever nobody can see them.
  */
-export function ScrollRing({ className = "" }: { className?: string }) {
-  const reduce = useReducedMotion();
+export function ScrollRing({
+  className = "",
+  active = true,
+}: {
+  className?: string;
+  active?: boolean;
+}) {
   const rawId = useId();
   const pathId = `scroll-ring-${rawId.replace(/:/g, "")}`;
 
   return (
     <div
-      className={`pointer-events-none absolute z-30 size-[min(140px,78%)] ${className}`}
+      className={`pointer-events-none absolute z-30 size-[min(140px,78%)] ${styles.ring} ${className}`}
+      data-active={active}
+      style={{ "--spin-duration": `${SCROLL_RING_SECONDS}s` } as CSSProperties}
       aria-hidden
     >
-      <motion.svg
+      <svg
         viewBox="0 0 100 100"
-        className="absolute inset-0 h-full w-full overflow-visible"
-        animate={reduce ? undefined : { rotate: 360 }}
-        transition={
-          reduce
-            ? undefined
-            : {
-                duration: SCROLL_RING_SECONDS,
-                repeat: Infinity,
-                ease: "linear",
-              }
-        }
+        className={`absolute inset-0 h-full w-full overflow-visible ${styles.spin}`}
       >
         <path
           id={pathId}
@@ -49,24 +48,13 @@ export function ScrollRing({ className = "" }: { className?: string }) {
             {"✦  SCROLL DOWN  ✦ AND KNOW ME BETTER"}
           </textPath>
         </text>
-      </motion.svg>
+      </svg>
       <span
         aria-hidden
         className="absolute left-1/2 top-1/2 size-[68.5%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink"
       />
-      <motion.div
-        className="absolute left-1/2 top-1/2 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
-        animate={reduce ? undefined : { y: [0, 12] }}
-        transition={
-          reduce
-            ? undefined
-            : {
-                duration: 1,
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "linear",
-              }
-        }
+      <div
+        className={`absolute left-1/2 top-1/2 flex size-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center ${styles.arrow}`}
       >
         <svg
           viewBox="0 0 24 24"
@@ -79,7 +67,7 @@ export function ScrollRing({ className = "" }: { className?: string }) {
         >
           <path d="M12 5v14M6 13l6 6 6-6" />
         </svg>
-      </motion.div>
+      </div>
     </div>
   );
 }

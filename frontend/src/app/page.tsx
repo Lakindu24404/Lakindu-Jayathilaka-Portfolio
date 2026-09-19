@@ -9,6 +9,7 @@ import { Stack } from "@/components/home/Stack";
 import { StatisticsBar } from "@/components/home/StatisticsBar";
 import { TopNav } from "@/components/layout/TopNav";
 import { LavaBackground } from "@/components/effects/LavaBackground";
+import { PauseOffscreen } from "@/components/effects/PauseOffscreen";
 import { getHomepageProjects, getPublicStack } from "@/lib/data/public";
 
 export default async function Home() {
@@ -34,6 +35,7 @@ export default async function Home() {
         <GetInTouch />
         <Contact />
       </main>
+      <PauseOffscreen targets={["home", "stack"]} />
     </div>
   );
 }

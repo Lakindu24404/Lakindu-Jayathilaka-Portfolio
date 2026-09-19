@@ -129,6 +129,13 @@
   }
 }
 
+/* Set by <PauseOffscreen> on sections well away from the screen. Only CSS
+   animations are affected; Motion's own animations are untouched. */
+[data-offscreen="true"],
+[data-offscreen="true"] * {
+  animation-play-state: paused !important;
+}
+
 @keyframes float-bob {
   0%,
   100% {
