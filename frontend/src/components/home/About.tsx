@@ -11,30 +11,21 @@ import { useEffect, useRef, useState } from "react";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { TextReveal } from "@/components/effects/TextReveal";
 import { about } from "@/content/site";
+import { trackScroll } from "@/lib/scrollTracker";
 import styles from "./About.module.css";
 
-function useLenisProgress(
+function useScrollProgress(
   target: RefObject<HTMLElement | null>,
   measure: (rect: DOMRect, viewportHeight: number) => number,
 ) {
   const progress = useMotionValue(0);
 
   useEffect(() => {
-    const update = () => {
-      const el = target.current;
-      if (!el) return;
-      progress.set(Math.min(1, Math.max(0, measure(el.getBoundingClientRect(), window.innerHeight))));
-    };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    const unsub = window.__lenis?.on?.("scroll", update);
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      unsub?.();
-    };
+    const el = target.current;
+    if (!el) return;
+    return trackScroll(el, (rect, viewportHeight) => {
+      progress.set(Math.min(1, Math.max(0, measure(rect, viewportHeight))));
+    });
   }, [target, progress, measure]);
 
   return progress;
@@ -59,7 +50,7 @@ function ExperienceCard({
   // Folira: onScrollTarget, threshold 0.5, offset 150, over the card height.
   // The card is tilted until its top sits ~65% down the viewport, then
   // flattens as its bottom crosses that same line.
-  const scrollYProgress = useLenisProgress(triggerRef, measureCardProgress);
+  const scrollYProgress = useScrollProgress(triggerRef, measureCardProgress);
   const rotateX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-60, 0]);
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
@@ -92,8 +83,8 @@ export function About() {
   const reduce = !!useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const midCardRef = useRef<HTMLDivElement>(null);
-  const scrollYProgress = useLenisProgress(sectionRef, measureSectionProgress);
-  const midCardProgress = useLenisProgress(midCardRef, measureCardProgress);
+  const scrollYProgress = useScrollProgress(sectionRef, measureSectionProgress);
+  const midCardProgress = useScrollProgress(midCardRef, measureCardProgress);
   const entranceOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const entranceY = useTransform(scrollYProgress, [0, 1], [-200, 0]);
   const entranceScale = useTransform(scrollYProgress, [0, 1], [0.7, 1]);

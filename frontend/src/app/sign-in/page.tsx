@@ -23,7 +23,7 @@ export default function SignInPage() {
       </header>
       <main className="relative flex min-h-svh flex-col items-center justify-center px-6 pt-28 pb-24">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/svc-sphere-orange.png" alt="" className="pointer-events-none absolute left-[6%] top-[18%] w-[220px] select-none" aria-hidden />
+        <img src="/images/svc-sphere-orange.webp" alt="" className="pointer-events-none absolute left-[6%] top-[18%] w-[220px] select-none" aria-hidden />
         <h1 className="text-[length:var(--type-display)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-ink">
           <TextReveal>Sign in</TextReveal>
         </h1>

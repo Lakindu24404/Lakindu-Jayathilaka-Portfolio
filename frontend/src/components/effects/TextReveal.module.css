@@ -7,9 +7,14 @@
   display: block;
 }
 
+/* The hidden resting state is also the server-rendered one, so nothing
+   flashes before hydration. A word is promoted to its own layer only while
+   its spring is moving (see TextReveal.tsx); a permanent `will-change` here
+   kept ~120 word layers alive for the life of the page. */
 .word {
   display: inline-block;
-  will-change: transform, opacity;
+  opacity: 0.001;
+  transform: translateY(10px);
 }
 
 .text {

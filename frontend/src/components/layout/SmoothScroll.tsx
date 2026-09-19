@@ -1,7 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
-import { useReducedMotion } from "motion/react";
+import { cancelFrame, frame, useReducedMotion } from "motion/react";
 import { useEffect } from "react";
 import {
   LENIS_READY_EVENT,
@@ -49,24 +49,26 @@ export function SmoothScroll() {
       return;
     }
 
-    let raf = 0;
     let hashFrame = 0;
     let cancelInitialAlignment = () => {};
+    // Touch scrolling stays native (`syncTouch` is off), so on phones the
+    // compositor keeps scrolling even when the main thread is busy.
     const instance = new Lenis({
       duration: NAV_SCROLL_DURATION,
       easing: NAV_SCROLL_EASING,
       autoToggle: true,
+      autoRaf: false,
     });
     window.__lenis = instance;
     window.dispatchEvent(new Event(LENIS_READY_EVENT));
 
     if (startsAtHome) instance.scrollTo(0, { immediate: true });
 
-    const loop = (time: number) => {
-      instance.raf(time);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
+    // Stepped from Motion's frame loop rather than a separate
+    // requestAnimationFrame, so the scroll position is settled in the read
+    // phase before the reveals, parallax and lava sample it for the frame.
+    const step = ({ timestamp }: { timestamp: number }) => instance.raf(timestamp);
+    frame.read(step, true);
 
     if (initialHash.length > 1) {
       scrollToHash(initialHash, true);
@@ -102,7 +104,7 @@ export function SmoothScroll() {
     }
 
     return () => {
-      cancelAnimationFrame(raf);
+      cancelFrame(step);
       cancelAnimationFrame(hashFrame);
       cancelInitialAlignment();
       if (window.__lenis === instance) delete window.__lenis;

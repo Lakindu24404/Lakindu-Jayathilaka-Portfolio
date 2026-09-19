@@ -36,11 +36,11 @@ export default function SignUpPage() {
 
       <main className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-24">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/svc-sphere-orange.png" alt="" className="pointer-events-none absolute left-[6%] top-[18%] w-[220px] select-none" aria-hidden />
+        <img src="/images/svc-sphere-orange.webp" alt="" className="pointer-events-none absolute left-[6%] top-[18%] w-[220px] select-none" aria-hidden />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/svc-heart-yellow.png" alt="" className="pointer-events-none absolute right-[8%] top-[16%] w-[220px] select-none" aria-hidden />
+        <img src="/images/svc-heart-yellow.webp" alt="" className="pointer-events-none absolute right-[8%] top-[16%] w-[220px] select-none" aria-hidden />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/svc-circle-purple.png" alt="" className="pointer-events-none absolute bottom-[8%] right-[12%] w-[220px] select-none" aria-hidden />
+        <img src="/images/svc-circle-purple.webp" alt="" className="pointer-events-none absolute bottom-[8%] right-[12%] w-[220px] select-none" aria-hidden />
 
         <h1 className="relative z-10 text-center text-[length:var(--type-display)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-ink">
           <TextReveal>Sign up</TextReveal>

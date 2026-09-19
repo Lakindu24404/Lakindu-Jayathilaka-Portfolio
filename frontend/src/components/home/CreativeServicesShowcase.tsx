@@ -16,7 +16,7 @@ const services = [
     title: "Empower",
     description:
       "Learning ICT should feel exciting, not complicated. ictwithls turns big ideas into simple lessons, practical skills, and confidence that grows with every step.",
-    image: "/images/brand-ict-with-ls.png",
+    image: "/images/brand-ict-with-ls.webp",
     imageAlt: "ictwithls ICT tutoring identity",
     side: "left",
   },
@@ -32,7 +32,7 @@ const services = [
     title: "Innovate",
     description:
       "Technology works best when it feels simple and dependable. L.S. Computer Technologh creates practical digital solutions and friendly support that help people move forward with confidence.",
-    image: "/images/brand-ls-computer-technology.png",
+    image: "/images/brand-ls-computer-technology.webp",
     imageAlt: "L.S. Computer Technologh brand identity",
     side: "left",
   },

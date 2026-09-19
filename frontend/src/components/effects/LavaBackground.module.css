@@ -8,16 +8,18 @@
   pointer-events: none;
 }
 
+/* The 40px blur, and the 80px overscan it needed, are both reproduced inside
+   the WebGL pipeline (see lavaRenderer.ts); a CSS filter here re-blurred a
+   full-screen, device-resolution layer on every lava frame. The small bleed
+   (CANVAS_BLEED) keeps fractional device pixel ratios from anti-aliasing the
+   red fallback into a seam along the viewport edges. */
 .canvas {
   position: absolute;
   z-index: 0;
-  /* Keep the blur kernel well outside narrow mobile/tablet viewports. A
-     percentage overscan can shrink below the 40px blur radius and expose the
-     red fallback as a straight seam along the viewport edges. */
-  inset: -80px;
-  width: calc(100% + 160px);
-  height: calc(100% + 160px);
-  filter: blur(40px);
+  inset: -4px;
+  display: block;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
 }
 
 .grain {

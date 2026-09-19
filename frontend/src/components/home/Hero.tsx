@@ -12,6 +12,16 @@ import { HERO_PARALLAX_START, hoverSpring } from "@/lib/motion";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+/** Long enough for the flip spring to turn the ring's face away before it stops. */
+const RING_PAUSE_DELAY_MS = 700;
+
+/**
+ * The portrait's drawn width at each breakpoint. The 3:2 source is covered
+ * into a box 180% as tall as the card, so it is drawn 2.7× the card's width
+ * (card: 200 / 248 / 280px at most).
+ */
+const PORTRAIT_SIZES = "(max-width: 767px) 540px, (max-width: 1199px) 670px, 756px";
+
 /**
  * Profile Photo (`framer-7yFNy`). Faces animate independently (not a
  * single preserve-3d wrapper): desktop rest is a 10° Y tilt, hover
@@ -34,18 +44,31 @@ function PortraitFlip() {
   }, []);
 
   const open = !reduce && flipped;
+  // The ring keeps turning while the card flips back, until its face is away.
+  const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    if (!closing) return;
+    const timer = window.setTimeout(() => setClosing(false), RING_PAUSE_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [closing]);
+
+  const flipTo = (next: boolean) => {
+    if (flipped && !next) setClosing(true);
+    setFlipped(next);
+  };
 
   return (
     <div
       className="relative z-20 size-[clamp(156px,42vw,200px)] cursor-pointer md:size-[clamp(200px,26vw,248px)] min-[1200px]:size-[clamp(240px,23.33vw,280px)]"
       onMouseEnter={() => {
-        if (hoverOk) setFlipped(true);
+        if (hoverOk) flipTo(true);
       }}
       onMouseLeave={() => {
-        if (hoverOk) setFlipped(false);
+        if (hoverOk) flipTo(false);
       }}
       onClick={() => {
-        if (!hoverOk) setFlipped((v) => !v);
+        if (!hoverOk) flipTo(!flipped);
       }}
     >
       <motion.div
@@ -63,7 +86,7 @@ function PortraitFlip() {
           aria-hidden
           className="absolute left-1/2 top-1/2 size-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ink"
         />
-        <ScrollRing />
+        <ScrollRing active={open || closing} />
       </motion.div>
       <motion.div
         className="absolute inset-0 z-[1] overflow-hidden rounded-[clamp(28px,8vw,48px)] bg-indigo shadow-[0_20px_20px_rgb(0_0_0/0.1)]"
@@ -75,19 +98,25 @@ function PortraitFlip() {
         animate={{ rotateY: reduce ? 0 : open ? -180 : 10 }}
         transition={hoverSpring}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/lakindu.png"
+        <Image
+          src="/images/lakindu.webp"
           alt="Lakindu Jayathilaka portrait"
+          width={1536}
+          height={1024}
+          sizes={PORTRAIT_SIZES}
+          loading="eager"
           className="absolute left-0 top-0 h-[180%] w-full object-cover"
           style={{ objectPosition: "47.9% 24.1%" }}
         />
         {/* A softly masked duplicate lifts facial exposure without affecting the transparent cutout. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/lakindu.png"
+        <Image
+          src="/images/lakindu.webp"
           alt=""
           aria-hidden
+          width={1536}
+          height={1024}
+          sizes={PORTRAIT_SIZES}
+          loading="eager"
           className="pointer-events-none absolute left-0 top-0 h-[180%] w-full object-cover"
           style={{
             objectPosition: "47.9% 24.1%",
@@ -129,7 +158,10 @@ export function Hero() {
       <FloatingShapes scrollY={scrollY} />
 
       <div className="relative flex w-full max-w-[720px] flex-col items-center text-center">
-        <motion.div style={{ y: titleY }} className="relative z-20">
+        {/* The parallax wrappers move every scroll frame; `will-change` gives
+            each its own layer so that is a compositor move, not a repaint of
+            the drop-shadowed type and signature inside. */}
+        <motion.div style={{ y: titleY }} className="relative z-20 will-change-transform">
           <h1 className="text-[length:var(--type-display-hero)] font-semibold leading-[var(--leading-display)] tracking-[var(--tracking-display)] text-white drop-shadow-[0_2px_18px_rgb(0_0_0/0.5)]">
             <TextReveal>
               Hi, I&apos;m{" "}
@@ -159,7 +191,7 @@ export function Hero() {
 
         <motion.div
           style={{ y: lowerY }}
-          className="relative z-20 flex flex-col items-center"
+          className="relative z-20 flex flex-col items-center will-change-transform"
         >
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -168,7 +200,7 @@ export function Hero() {
             className="mt-6 md:mt-[clamp(36px,5.4vh,72px)]"
           >
             <Image
-              src="/images/lakindu-signature.png"
+              src="/images/lakindu-signature.webp"
               alt="Lakindu Jayathilaka signature"
               width={1600}
               height={900}

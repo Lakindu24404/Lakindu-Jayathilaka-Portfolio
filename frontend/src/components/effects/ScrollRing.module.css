@@ -1,0 +1,34 @@
+.spin {
+  transform-origin: 50% 50%;
+  animation: scroll-ring-spin var(--spin-duration) linear infinite;
+}
+
+/* Tailwind's centring uses the separate `translate` property, so this
+   transform stacks on top of it just as Motion's `y` did. */
+.arrow {
+  animation: scroll-ring-bob 1s linear infinite alternate;
+}
+
+.ring[data-active="false"] .spin,
+.ring[data-active="false"] .arrow {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scroll-ring-bob {
+  to {
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin,
+  .arrow {
+    animation: none;
+  }
+}
